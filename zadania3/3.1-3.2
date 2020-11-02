@@ -1,0 +1,46 @@
+zad 3.1
+
+x = 2; y = 3;
+if (x > y):
+    result = x;
+else:
+    result = y;
+
+Kod ten jest prawidlowy, natomiast niepotrzebne jest używanie średnika w języku python
+-----------------------------------------------------------------------------------------------
+for i in "qwerty": if ord(i) < 100: print (i)
+
+Kod ten jest błędny.
+
+Poprawny kod jest następujący:
+for i in "qwerty":
+  if ord(i) < 100:
+    print (i)
+------------------------------------------------------------------------------------------------
+
+for i in "axby": print (ord(i) if ord(i) < 100 else i)
+
+Ten kod jest prawidłowy
+
+------------------------------------------------------------------------------------------------
+
+zad 3.2
+L = [3, 5, 4] ; L = L.sort()
+Funkcja sort nic nie zwraca zatem po takim przypisaniu lista L będzie pusta.
+Aby posortowac liste L nalezy uzyc L.sort()
+
+----------------------------------------------------------------------------
+x, y = 1, 2, 3
+Mamy dwie zmienne po lewej stronie znaku "=" i 3 liczby po prawej stronie co w efekcie daje błąd, ponieważ nie wiadomo co z tą trzecią liczbą zrobić.
+
+---------------------------------------------------------------------------
+X = 1, 2, 3 ; X[1] = 4
+Krotki to niezmienna struktura, nie mozna stosowac operatora przypisania
+
+---------------------------------------------------------------------------
+X = "abc" ; X.append("d")
+Obiekty typu string nie maja funkcji append
+
+--------------------------------------------------------------
+L = list(map(pow, range(8)))
+funkcja pow przyjmuje 2 argumenty przez co funkcja map jej nie obsługuje

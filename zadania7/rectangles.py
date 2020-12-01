@@ -37,8 +37,10 @@ class Rectangle:
 
     def move(self, x, y):       # przesunięcie o (x, y)
         if((isinstance(x,int) or isinstance(x,float)) and (isinstance(y,int) or isinstance(y,float))):
-            #sprawdz czy int/float
-            return Rectangle(self.pt1.x+x,self.pt1.y+y,self.pt2.x+x,self.pt2.y+y)
+            self.pt1.x+=x
+            self.pt1.y+=y
+            self.pt2.x+=x
+            self.pt2.y+=y
         else:
             raise ValueError("Error")
 
@@ -136,7 +138,7 @@ class TestRectangle(unittest.TestCase):
     def test_move(self):
         rec  = Rectangle(1,2,4,4)
         rec.move(1,1)
-        self.assertFalse( rec == Rectangle(2,3,5,5))
+        self.assertTrue( rec == Rectangle(2,3,5,5))
 
     def test_intersection(self):
         rec = Rectangle(3,2,9,6)

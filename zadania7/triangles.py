@@ -19,6 +19,8 @@ class Triangle:
         return "Triangle({0}, {1}, {2}, {3}, {4}, {5})".format(self.pt1.x,self.pt1.y,self.pt2.x,self.pt2.y,self.pt3.x,self.pt3.y)
 
     def __eq__(self, other):    # obsługa tr1 == tr2
+        if isisntance(other,triangle) == False:
+            raise ValueError("invalid argument!")
         if self.pt1 == other.pt1:
             if self.pt2 == other.pt2 and self.pt3 == other.pt3:
                 return True
@@ -52,14 +54,17 @@ class Triangle:
 
 
     def move(self, x, y):       # przesunięcie o (x, y)
-        self.pt1.x+=x
-        self.pt1.y+=y
+        if((isinstance(x,int) or isinstance(x,float)) and (isinstance(y,int) or isinstance(y,float))):
+            self.pt1.x+=x
+            self.pt1.y+=y
 
-        self.pt2.x+=x
-        self.pt2.y+=y
+            self.pt2.x+=x
+            self.pt2.y+=y
 
-        self.pt3.x+=x
-        self.pt3.y+=y
+            self.pt3.x+=x
+            self.pt3.y+=y
+        else:
+            raise ValueError("Error")
 
     def make4(self):
         def mid(p1,p2): #zwraca srodek boku trojkata

@@ -6,10 +6,10 @@ def calc_pi(n=100):
     for i in range(n):
         x=random.random()**2
         y=random.random()**2
-        if( math.sqrt(x+y) < 1.0 ):
+        if( math.sqrt(x+y) <= 1.0 ):
             inside+=1
 
-    pi = (float)(inside/n)*4
+    pi = (inside/n)*4
     return pi
 
 

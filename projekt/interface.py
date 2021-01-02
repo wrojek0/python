@@ -5,21 +5,28 @@ from PIL import ImageTk
 from tkinter import messagebox
 import time
 import math
+import random
+import tkinter
+
+
+
 
 class Menu:
 
     def __init__(self,root):
         self.root = root
+        self.root.config(bg = "white",width = '1000',height = '1000')
         self.krzyzyk = PhotoImage(file="krzyzyk.png")
         self.kolko = PhotoImage(file="kolko.png")
         self.img = PhotoImage(width=266, height=266)
         self.whoIsNext = ""
-        self.clicked = 0;
         self.board = [["." for i in range(3)] for j in range(3)]
         self.player = ""
         self.computer = ""
         self.isOver = False
         self.scores = {'X':1,'O':-1,'tie':0}
+        self.players = ["O","X"]
+        # self.font = Font(family = "Algerian",weight = "bold",size = 10)
         self.newGame()
 
 
@@ -28,19 +35,28 @@ class Menu:
     def initBoardFromX(self):
         self.clearRoot()
         self.scores = {'X':-1, 'O': 1, 'tie': 0}
-        self.whoIsNext = "X"
+        self.whoIsNext = random.choice(self.players)
         self.player = "X"
         self.computer = "O"
         self.generateBoard()
+        if self.computer == self.whoIsNext:
+            cell = random.choice(self.cells)
+            self.putAI(cell, self.dict[cell])
+
 
     #jezeli wybierzemy kolko generujemy z tej metody
     def initBoardFromO(self):
         self.clearRoot()
         self.scores = {'X': 1, 'O': -1, 'tie': 0}
-        self.whoIsNext = "O"
         self.player = "O"
         self.computer = "X"
+        self.whoIsNext = random.choice(self.players)
         self.generateBoard()
+        if self.computer == self.whoIsNext:
+            cell = random.choice(self.cells)
+            self.putAI(cell,self.dict[cell])
+
+
 
 
 
@@ -52,27 +68,32 @@ class Menu:
                 self.board[i][j] == "."
 
 
-        self.b1 = Button(self.root,text="b1", bg="firebrick2",fg="firebrick2",image = self.img,command=lambda: self.click(self.b1,"b1") )
-        self.b2 = Button(self.root,text = "b2", bg="firebrick2", fg="firebrick2",image = self.img,command=lambda: self.click(self.b2,"b2"))
-        self.b3 = Button(self.root,text = "b3", bg="firebrick2", fg="firebrick2",image = self.img,command=lambda:self.click(self.b3,"b3"))
-        self.b4 = Button(self.root,text = "b4", bg="firebrick2", fg="firebrick2",image = self.img,command=lambda:self.click(self.b4,"b4"))
-        self.b5 = Button(self.root,text = "b5", bg="firebrick2", fg="firebrick2",image = self.img,command=lambda:self.click(self.b5,"b5"))
-        self.b6 = Button(self.root,text = "b6", bg="firebrick2", fg="firebrick2",image = self.img,command=lambda:self.click(self.b6,"b6"))
-        self.b7 = Button(self.root,text = "b7", bg="firebrick2", fg="firebrick2",image = self.img,command=lambda:self.click(self.b7,"b7"))
-        self.b8 = Button(self.root,text = "b8", bg="firebrick2", fg="firebrick2",image = self.img,command=lambda:self.click(self.b8,"b8"))
-        self.b9 = Button(self.root,text = "b9", bg="firebrick2", fg="firebrick2",image = self.img,command=lambda:self.click(self.b9,"b9"))
-
+        self.b1 = Button(self.root,text = "b1", bg="AntiqueWhite1", fg="AntiqueWhite1",image = self.img,command=lambda: self.click(self.b1,"b1") )
+        self.b2 = Button(self.root,text = "b2", bg="AntiqueWhite1", fg="AntiqueWhite1",image = self.img,command=lambda: self.click(self.b2,"b2"))
+        self.b3 = Button(self.root,text = "b3", bg="AntiqueWhite1", fg="AntiqueWhite1",image = self.img,command=lambda:self.click(self.b3,"b3"))
+        self.b4 = Button(self.root,text = "b4", bg="AntiqueWhite1", fg="AntiqueWhite1",image = self.img,command=lambda:self.click(self.b4,"b4"))
+        self.b5 = Button(self.root,text = "b5", bg="AntiqueWhite1", fg="AntiqueWhite1",image = self.img,command=lambda:self.click(self.b5,"b5"))
+        self.b6 = Button(self.root,text = "b6", bg="AntiqueWhite1", fg="AntiqueWhite1",image = self.img,command=lambda:self.click(self.b6,"b6"))
+        self.b7 = Button(self.root,text = "b7", bg="AntiqueWhite1", fg="AntiqueWhite1",image = self.img,command=lambda:self.click(self.b7,"b7"))
+        self.b8 = Button(self.root,text = "b8", bg="AntiqueWhite1", fg="AntiqueWhite1",image = self.img,command=lambda:self.click(self.b8,"b8"))
+        self.b9 = Button(self.root,text = "b9", bg="AntiqueWhite1", fg="AntiqueWhite1",image = self.img,command=lambda:self.click(self.b9,"b9"))
+        self.turn = "TURN: "+ str(self.whoIsNext)
+        
+        self.cells = [self.b1, self.b2, self.b3, self.b4, self.b5, self.b6, self.b7, self.b8, self.b9]
+        self.dict = {self.b1:"b1", self.b2: "b2", self.b3: "b3", self.b4: "b4", self.b5: "b5", self.b6: "b6", self.b7: "b7", self.b8: "b8", self.b9: "b9"}
         self.b1.grid(row=0,column=0)
         self.b2.grid(row=0,column=1)
         self.b3.grid(row=0,column=2)
-
         self.b4.grid(row=1,column=0)
         self.b5.grid(row=1,column=1)
         self.b6.grid(row=1,column=2)
-
         self.b7.grid(row=2,column=0)
         self.b8.grid(row=2,column=1)
         self.b9.grid(row=2,column=2)
+
+
+
+
 
 
 
@@ -109,7 +130,7 @@ class Menu:
                         bestScore = score
                         bestMove = [i,j]
 
-        print(bestMove[0],bestMove[1])
+        
 
         self.board[bestMove[0]][bestMove[1]] = self.computer
         if bestMove[0] == 0:
@@ -144,11 +165,10 @@ class Menu:
         result = self.checkWinner()
         if result != None:
             score = self.scores[result]
-            print(score)
             return score
 
         if isMaximizing:
-            bestScore = -999999
+            bestScore = -9
             #sprawdzamy wolne miejsca
             for i in range(3):
                 for j in range(3):
@@ -160,7 +180,7 @@ class Menu:
             return bestScore
 
         else:
-            bestScore = 999999
+            bestScore = 9
             # sprawdzamy wolne miejsca
             for i in range(3):
                 for j in range(3):
@@ -181,12 +201,14 @@ class Menu:
             if( self.checkIfEnd(self.player)== True ):
                 return
 
+
          elif( self.player == "X"):
             button.config(image=self.krzyzyk, state=DISABLED, width=266, height=266)
             self.updateBoard(whichOne, self.player)
             self.whoIsNext = self.computer
             if( self.checkIfEnd(self.player) == True ):
                 return
+
 
          if self.isOver == False:
              self.best_move()
@@ -204,13 +226,12 @@ class Menu:
         self.root.geometry("800x800")
         self.root.config(bg="AntiqueWhite1")
         myFont = Font(family="Cooper Black", size=30, weight="bold", slant="italic")
-        # tworzymy tło dla apliklacji
+        # tworzymy tlo dla aplikacji
         label = Label(self.root, text="Choose figure", bg="AntiqueWhite1", fg="black", font=myFont, width=30)
         label.place(anchor='nw')
-
-        oButton = Button(self.root, bg="firebrick2", fg="firebrick2", image=self.kolko, width=350, height=350,
+        oButton = Button(self.root, bg="AntiqueWhite1", fg="AntiqueWhite1", image=self.kolko, width=350, height=350,
                          command=self.initBoardFromO)
-        xButton = Button(self.root, bg="firebrick2", fg="firebrick2", image=self.krzyzyk, width=350, height=350,
+        xButton = Button(self.root, bg="AntiqueWhite1", fg="AntiqueWhite1", image=self.krzyzyk, width=350, height=350,
                          command=self.initBoardFromX)
         oButton.pack(side=LEFT)
         xButton.pack(side=RIGHT)
@@ -225,7 +246,7 @@ class Menu:
             self.board[0][2] == figure and self.board[1][1] == figure and self.board[2][0] == figure or
             self.board[1][0] == figure and self.board[1][1] == figure and self.board[1][2] == figure or
             self.board[2][0] == figure and self.board[2][1] == figure and self.board[2][2] == figure):
-            info = "wygrał " + str(figure)
+            info = "wygral " + str(figure)
             self.isOver = True
             messagebox.showinfo("Koniec gry", info)
         elif( self.isOver == False ):
@@ -264,9 +285,9 @@ class Menu:
         elif (button == "b9"):
             self.board[2][2] = figure
 
-        for i in range(3):
-            print(self.board[i],"\n")
-        print("\n\n")
+        # for i in range(3):
+        #     print(self.board[i],"\n")
+        # print("\n\n")
 
     def checkWinner(self):
         winner = None
@@ -274,29 +295,29 @@ class Menu:
         for i in range(3):
             if (self.board[i][0]== self.board[i][1]) and (self.board[i][0] == self.board[i][2] )and self.board[i][0] != ".":
                 winner = self.board[i][0]
-                if winner == '.':
+                # if winner == '.':
                     
 
             #vertykalnie
         for j in range(3):
              if (self.board[0][j] == self.board[1][j]) and (self.board[0][j] ==  self.board[2][j]) and self.board[0][j] != ".":
                 winner = self.board[0][j]
-                if winner == '.':
+                # if winner == '.':
                     
 
 
             #diagonalnie
         if (self.board[0][0] == self.board[1][1]) and (self.board[0][0] == self.board[2][2]) and self.board[0][0] != ".":
             winner = self.board[0][0]
-            if winner  == '.':
+            # if winner  == '.':
                 
 
         if (self.board[2][0] == self.board[1][1]) and (self.board[2][0] == self.board[0][2]) and self.board[2][0] != ".":
             winner = self.board[2][0]
-            if winner  == '.':
+            # if winner  == '.':
                 
 
-        #sprawdzamy ile wolnych pól
+        #sprawdzamy ile wolnych pol
         openSpots = 0
         for i in range(3):
             for j in range(3):
@@ -309,6 +330,15 @@ class Menu:
             return winner
 
 
+
+
+def main():
+    root = Tk()
+    gui = Menu(root)
+    mainloop()
+
+if __name__ == "__main__":
+    main()
 
 
 

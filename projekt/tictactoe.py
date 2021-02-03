@@ -1,20 +1,20 @@
 from tkinter import *
-from tkinter.font import Font
-# from PIL import Image
-# from PIL import ImageTk
-# import PIL
 from tkinter import messagebox
-import time
-import math
+import tkinter as tk
 import random
-import tkinter
+
 
 
 
 
 class Game:
 
+    '''
+    Konstruktor domyslny
+    Args:
+        root - glowna warstwa aplikacji okienkowe w tkinter
 
+    '''
     def __init__(self,root):
         self.root = root
         self.root.config(bg = "white",width = '1000',height = '1000')
@@ -31,7 +31,9 @@ class Game:
         self.players = ["O","X"]
         self._newGame()
     
-    #wygenerowanie interfejsu wybrania kolka lub krzyzyka
+    '''
+    Funkcja realizujaca wyswietlenie ekranu poczatkowego dla nowej gry
+    '''
     def _newGame(self):
         for i in range(3):
             for j in range(3):
@@ -54,7 +56,12 @@ class Game:
         xbutton_window=canvas.create_window(200,500,anchor = "center",window = oButton)
         obutton_window=canvas.create_window(600,500,anchor = "center",window = xButton)
 
-
+    '''
+    Funkcja ktora realizuje akcje klikniecia w przyciski "xButton" i "oButton"
+    
+    Args:
+        figure(string) - przekazujemy znak "O" lub "X" w zaleznosci od wybranej figury przez gracza.
+    '''
     def _initBoard(self, figure):
         if figure == "X":
             self._clearRoot()
@@ -80,7 +87,9 @@ class Game:
 
 
 
-    #wygenerowanie przyciskow na planszy do gry
+    '''
+    Funkcja generujaca plansze 3x3. Zostaje utworzone 9 przyciskow, ktore sa odpowiednio obslugiwane.
+    '''
     def _generateBoard(self):
         #czyscimy plansze robocza do sprawdzania
         for i in range(3):
@@ -117,13 +126,21 @@ class Game:
 
 
 
-    #wyczyszczenie interfejsu
+    '''
+    Funkcja czyszczaca interfejs z wszystkich widgetow
+    '''
     def _clearRoot(self):
         for widget in self.root.winfo_children():
             widget.destroy()
 
 
-    #funkcja pomocniczna ktora umieszcza na planszy pozycje dla ai
+    '''
+    Funkcja umieszczajaca na planszy figure komputera
+
+    Args:
+        button - przycisk wyliczony przez algorytm minimax dla komputera
+        na ktorego nalezy nalozyc odpowiednia figure.
+    '''
     def _putAI(self,button):
         if (self.computer == "O"):
             button.config(image=self.kolko,width=266, height=266)
@@ -141,7 +158,11 @@ class Game:
 
 
 
-    #funkcja ktora oblicza opytmalny ruch dla komputera z wykorzystaniem funkcji minimax
+    '''
+    Funkcja realizujaca obliczenie optymalnego ruchu dla komputera.
+    Z poziomu tej funkcji wywowylany jest algorytm minimax oraz _putAI()
+
+    '''
     def _best_move(self):
         bestScore = -99999
         for i in range(3):
@@ -180,7 +201,13 @@ class Game:
 
 
 
-    #algorytm min/max
+    '''
+    Funkcja realizujaca algorytm minimax
+
+    Args:
+        depth(int) - glebokosc drzewa gry
+        isMaximazing(boolean) - True lub False w zaleznosci dla ktorego gracza wywolywana jest funkcja minimax
+    '''
     def _minimax(self,depth,isMaximizing):
         result = self._checkWinner()
         if result != None:
@@ -212,10 +239,11 @@ class Game:
             return bestScore
 
 
-    #obsluga postawienia kolka lub krzyzyka na planszy
+   
     '''
-    param: 
-    - button: przekazujemy przycisk w ktorym nalezy umiescic odpowiednio grafike kolka lub krzyzyka
+    obsluga postawienia kolka lub krzyzyka na planszy
+    Args: 
+      button: przekazujemy przycisk w ktorym nalezy umiescic odpowiednio grafike kolka lub krzyzyka
    
     '''
     def _click(self,button):
@@ -239,8 +267,12 @@ class Game:
          if self.isOver == False:
              self._best_move()
 
+    '''
+    Funkcja sprawdzajaca warunki konca gry i wyswietlenie odpowiedniego komunikatu jezeli koniec gry nastapil
 
-    #funkcja sprawdzajaca warunki konca gry i wyswietlenie odpowiedniego komunikatu jezeli koniec gry nastapil
+    Args:
+        figure(string) - figura dla ktorej sprawdzany jest stan rozgrywki.
+    '''
     def _checkIfEnd(self,figure):
         if( self.board[0][0] == figure and self.board[1][1] == figure and self.board[2][2] == figure or
             self.board[0][0] == figure and self.board[1][0] == figure and self.board[2][0] == figure or
@@ -274,11 +306,12 @@ class Game:
             return True
 
 
-    #funkcja ktora aktualizuje stan pomocniczej planszy w formie listy dwuwymiarowej
+    
     '''
-    param:
-    button: przekazujemy wcisniety przycisk
-    figure: przekazujemy kolko lub krzyzyk w celu wpisania do pomocniczej listy stringow
+    funkcja ktora aktualizuje stan pomocniczej planszy w formie listy dwuwymiarowej
+    Args:
+        button: przekazujemy wcisniety przycisk
+        figure: przekazujemy kolko lub krzyzyk w celu wpisania do pomocniczej listy stringow
     '''
     def _updateBoard(self,button,figure):
         if( button == self.b1):
@@ -301,7 +334,10 @@ class Game:
             self.board[2][2] = figure
 
 
-    #sprawdza sam stan gry
+   
+    '''
+    Funkcja sprawdzajaca sam stan rozgrywki
+    '''
     def _checkWinner(self):
         winner = None
             #horyzontalnie
@@ -341,9 +377,11 @@ class Game:
 
 
 
-
+'''
+Glowna petla programu
+'''
 def main():
-    root = Tk()
+    root = tk.Tk()
     gui = Game(root)
     mainloop()
 
